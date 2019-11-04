@@ -1,0 +1,15 @@
+{
+  "name": "microfrontend-sample",
+  "version": "1.0.0",
+  "description": "A microfrontend sample",
+  "main": "index.js",
+  "scripts": {
+    "build": "docker-compose up --build"
+  },
+  "keywords": [
+    "microfrontend",
+    "sample"
+  ],
+  "author": "Henrique Silva",
+  "license": "MIT"
+}
