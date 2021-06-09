@@ -1,0 +1,3 @@
+STAGE: ${self:provider.stage}
+REGION: ${self:provider.region}
+SERVICE: ${self:service}

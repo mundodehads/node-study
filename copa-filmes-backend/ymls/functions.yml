@@ -1,0 +1,67 @@
+listMovies:
+  handler: functions/listMovies/index.handler
+  iamRoleStatementsName: ${self:service}-listMovies-${self:provider.stage}-role
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+       - ssm:GetParameter
+      Resource: "arn:aws:ssm:${self:provider.region}:#{AWS::AccountId}:parameter/${self:service}-${self:provider.stage}"
+    - Effect: "Allow"
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:BatchWriteItem
+      Resource: "*"
+  memorySize: 256
+  environment:
+    MOVIES_API: http://copafilmes.azurewebsites.net/api/filmes
+  events:
+    - http:
+        path: /movies
+        method: get
+        cors:
+          origin: '*'
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+            - Cache-Control
+          allowCredentials: false
+
+generateMoviesRanking:
+  handler: functions/generateMoviesRanking/index.handler
+  iamRoleStatementsName: ${self:service}-generateMoviesRanking-${self:provider.stage}-role
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+       - ssm:GetParameter
+      Resource: "arn:aws:ssm:${self:provider.region}:#{AWS::AccountId}:parameter/${self:service}-${self:provider.stage}"
+    - Effect: "Allow"
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:Query
+        - dynamodb:Scan
+      Resource: "*"
+  memorySize: 256
+  events:
+    - http:
+        path: /movies/ranking
+        method: post
+        request:
+          schema:
+            application/json: ${file(jsonschemas/generateMoviesRanking.json)}
+        cors:
+          origin: '*'
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+            - Cache-Control
+          allowCredentials: false

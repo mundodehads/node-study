@@ -1,0 +1,12 @@
+hapiuser-api/node_modules/
+microfrontend-sample/node_modules/
+edirect-fullstack-test/backend/node_modules/
+edirect-fullstack-test/my-gatsby-site/node_modules/
+treinamento-graphql/node_modules/
+ts-serverless-crud/lambda-ddd/node_modules/
+ts-serverless-crud/stepfunctions/node_modules/
+cocus-code-challenge/node_modules/
+copa-filmes-backend/node_modules/
+edirect-todo-list/backend/node_modules/
+edirect-todo-list/frontend/node_modules/
+fintalk-customer-rewards-test/node_modules/

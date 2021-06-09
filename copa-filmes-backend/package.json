@@ -1,0 +1,30 @@
+{
+  "name": "copafilmes-api",
+  "version": "1.0.0",
+  "scripts": {
+    "deploy:dev": " sls deploy -v --stage dev",
+    "start": "serverless offline",
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "serverless": "1.35.1",
+    "serverless-offline": "^3.31.3",
+    "serverless-iam-roles-per-function": "^1.0.1",
+    "serverless-pseudo-parameters": "^2.1.0",
+    "mocha": "^6.1.4",
+    "chai": "^4.2.0",
+    "nyc": "^14.1.1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.576.0",
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "dynamoose": "^1.11.1"
+  }
+}

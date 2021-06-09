@@ -1,0 +1,39 @@
+createUser:
+  handler: src/handlers/users/createUser.handler
+  events:
+    - http:
+        path: users
+        method: post
+        cors: true
+
+deleteUser:
+  handler: src/handlers/users/deleteUser.handler
+  events:
+    - http:
+        path: users/{userId}
+        method: delete
+        cors: true
+
+listUser:
+  handler: src/handlers/users/listUser.handler
+  events:
+    - http:
+        path: users
+        method: get
+        cors: true
+
+updateUser:
+  handler: src/handlers/users/updateUser.handler
+  events:
+    - http:
+        path: users/{userId}
+        method: put
+        cors: true
+
+getUser:
+  handler: src/handlers/users/getUser.handler
+  events:
+    - http:
+        path: users/{userId}
+        method: get
+        cors: true

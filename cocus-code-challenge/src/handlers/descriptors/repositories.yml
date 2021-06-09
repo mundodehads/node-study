@@ -1,0 +1,7 @@
+getRepositoriesByUser:
+  handler: src/handlers/repositories/getRepositoriesByUser.handler
+  events:
+    - http:
+        path: repositories/{user}
+        method: get
+        cors: true

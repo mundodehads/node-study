@@ -1,0 +1,16 @@
+moviesTable:
+  Type: "AWS::DynamoDB::Table"
+  DeletionPolicy: Retain
+  Properties:
+    TableName: ${self:service}-${self:provider.stage}-movies
+    AttributeDefinitions:
+      - AttributeName: "id"
+        AttributeType: "S"
+    KeySchema:
+      - AttributeName: "id"
+        KeyType: "HASH"
+    ProvisionedThroughput:
+      ReadCapacityUnits: ${self:custom.DYNAMODB_MOVIES_TABLE_SIZE.${self:provider.stage}.READ}
+      WriteCapacityUnits: ${self:custom.DYNAMODB_MOVIES_TABLE_SIZE.${self:provider.stage}.WRITE}
+    SSESpecification:
+        SSEEnabled: true

@@ -1,0 +1,27 @@
+{
+  "name": "lambda-ddd",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "deploy:dev": "npx serverless deploy --stage dev",
+    "deploy:prod": "npx serverless deploy --stage prod",
+    "start": "npx serverless offline --stage=dev"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.17",
+    "class-validator": "^0.9.1",
+    "serverless": "^1.77.1",
+    "serverless-offline": "^6.4.0",
+    "serverless-webpack": "^5.2.0",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.2.4",
+    "webpack": "^4.29.0",
+    "webpack-node-externals": "^1.7.2",
+    "yamljs": "^0.3.0"
+  },
+  "dependencies": {
+    "@aws/dynamodb-data-mapper": "^0.7.3",
+    "@aws/dynamodb-data-mapper-annotations": "^0.7.3",
+    "@aws/dynamodb-expressions": "^0.7.3"
+  }
+}

@@ -1,0 +1,7 @@
+getRandomJoke:
+  handler: src/handlers/jokes/getRandomJoke.handler
+  events:
+    - http:
+        path: jokes/random
+        method: get
+        cors: true
