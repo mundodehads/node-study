@@ -13,3 +13,4 @@ fintalk-customer-rewards-test/.env
 leovegas-test/.env
 
 prosigliere-test/.env
+.DS_Store
