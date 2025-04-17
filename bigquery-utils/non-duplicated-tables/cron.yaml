@@ -1,4 +1,0 @@
-cron:
-- description: "Create non-duplicated User"
-  url: /create-non-duplicated-user
-  schedule: every 24 hours

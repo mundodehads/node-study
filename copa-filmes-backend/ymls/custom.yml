@@ -1,7 +1,0 @@
-DYNAMODB_MOVIES_TABLE_SIZE:
-  prd:
-    READ: 1
-    WRITE: 1
-  dev:
-    READ: 1
-    WRITE: 1
