@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node --import=tsx src/server.ts",
-    "seed": "node --import=tsx src/seed.ts"
+    "seed": "node --import=tsx database/seed.ts"
   },
   "keywords": [],
   "author": "",

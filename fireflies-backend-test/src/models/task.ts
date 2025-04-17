@@ -1,7 +1,7 @@
-import mongoose, { Document, Schema } from "mongoose";
+import { Document, Types } from "mongoose";
 
 export interface ITask extends Document {
-  meetingId: mongoose.Types.ObjectId;
+  meetingId: Types.ObjectId;
   userId: string;
   title: string;
   description: string;
@@ -9,17 +9,10 @@ export interface ITask extends Document {
   dueDate: Date;
 }
 
-const taskSchema = new Schema<ITask>({
-  meetingId: { type: Schema.Types.ObjectId, ref: "Meeting" },
-  userId: String,
-  title: String,
-  description: String,
-  status: {
-    type: String,
-    enum: ["pending", "inProgress", "completed"],
-    default: "pending",
-  },
-  dueDate: Date,
-});
-
-export const Task = mongoose.model<ITask>("Task", taskSchema);
+export interface OverdueTask {
+  _id: Types.ObjectId;
+  title: string;
+  dueDate: Date;
+  meetingId: Types.ObjectId;
+  meetingTitle: string;
+}

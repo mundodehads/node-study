@@ -1,28 +1,11 @@
-import express from 'express';
-import { Meeting } from '../models/meeting.js';
-import { AuthenticatedRequest } from '../auth.middleware.js';
+import { Meeting } from "../database/entities/meeting.js";
 
-export const router = express.Router();
-
-// GET all meetings for user
-router.get('/', async (req: AuthenticatedRequest, res) => {
-  try {
-    const meetings = await Meeting.find();
-    res.json({
-      total: meetings.length,
-      limit: req.query.limit,
-      page: req.query.page,
-      data: meetings,
-    });
-  } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
+export default class MeetingsService {
+  public async getMeetings(): Promise<(typeof Meeting)[]> {
+    return Meeting.find();
   }
-});
 
-// TODO: implement other endpoints
-
-router.get('/stats', async (req: AuthenticatedRequest, res) => {
-  try {
+  public async getStats(): Promise<any> {
     // TODO: get statistics from the database
     const stats = {
       generalStats: {
@@ -50,10 +33,7 @@ router.get('/stats', async (req: AuthenticatedRequest, res) => {
         { dayOfWeek: 7, count: 0 },
       ],
     };
-    res.json(stats);
-  } catch (err) {
-    res.status(500).json({ message: (err as Error).message });
-  }
-});
 
-export { router as meetingRoutes };
+    return Promise.resolve(stats);
+  }
+}

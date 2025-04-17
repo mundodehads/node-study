@@ -1,11 +1,14 @@
-import mongoose from "mongoose";
-import { Meeting, IMeeting } from "./models/meeting.js";
-import { Task, ITask } from "./models/task.js";
+import "dotenv/config";
 
-const MONGODB_URI = "mongodb://localhost:27017/meetingbot";
+import mongoose from "mongoose";
+
+import { IMeeting } from "../src/models/meeting.js";
+import { ITask } from "../src/models/task.js";
+import { Meeting } from "../src/database/entities/meeting.js";
+import { Task } from "../src/database/entities/task.js";
 
 await mongoose
-  .connect(MONGODB_URI)
+  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/meetingbot")
   .then(() => console.log("Connected to MongoDB for seeding"))
   .catch((err) => console.error("MongoDB connection error:", err));
 

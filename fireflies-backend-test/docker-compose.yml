@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  mongodb:
+    build:
+      context: ./database
+    container_name: mongodb-container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: meetingbot
+
+  api:
+    build:
+      context: . # Set the build context to the root of the project
+      dockerfile: ./src/Dockerfile
+    container_name: nodejs-api
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      MONGODB_URI: "mongodb://mongodb-container:27017/meetingbot"
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb_data:

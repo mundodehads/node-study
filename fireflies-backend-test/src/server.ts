@@ -1,17 +1,17 @@
+import "dotenv/config";
+
 import express from "express";
 import mongoose from "mongoose";
-import { meetingRoutes } from "./routes/meetings.js";
-import { dashboardRoutes } from "./routes/dashboardRoutes.js";
-import { authMiddleware } from "./auth.middleware.js";
 
-const { PORT = 3000, MONGODB_URI = "mongodb://localhost:27017/meetingbot" } =
-  process.env;
+import MeetingsController from "./meetings/meetings.controller.js";
+import DashboardController from "./dashboard/dashboard.controller.js";
+import { authMiddleware } from "./middlewares/auth.middleware.js";
 
 const app = express();
 
 await mongoose
-  .connect(MONGODB_URI)
-  .then((conn) => console.log("Connected to MongoDB"))
+  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/meetingbot")
+  .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
 app.use(express.json());
@@ -20,9 +20,10 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to the MeetingBot API" });
 });
 
-app.use("/api/meetings", authMiddleware, meetingRoutes);
-app.use("/api/dashboard", authMiddleware, dashboardRoutes);
+app.use("/api/meetings", authMiddleware, MeetingsController);
+app.use("/api/dashboard", authMiddleware, DashboardController);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
