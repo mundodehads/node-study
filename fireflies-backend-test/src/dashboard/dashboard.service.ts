@@ -1,47 +1,113 @@
 import { Meeting } from "../database/entities/meeting.js";
-import { Types } from "mongoose";
 import { DashboardData } from "../models/dashboard";
 
 export default class DashboardService {
   public async getDashboard(): Promise<DashboardData> {
-    // TODO: fix this
-    // it should be sorted by date, only include upcoming meetings, limit to 5 and only include the _id, title, date, and participantCount fields
-    const upcomingMeetings = (await Meeting.find()).map((meeting) => {
-      return {
-        _id: meeting._id as Types.ObjectId,
-        title: meeting.title,
-        date: meeting.date,
-        participantCount: meeting.participants.length,
-      };
-    });
+    const now = new Date();
 
-    const dashboardData: DashboardData = {
-      totalMeetings: (await Meeting.find()).length,
-      taskSummary: {
-        pending: 10,
-        inProgress: 5,
-        completed: 2,
+    const [dashboardData] = await Meeting.aggregate([
+      {
+        $facet: {
+          totalMeetings: [{ $count: "count" }],
+          upcomingMeetings: [
+            { $match: { date: { $gte: now } } },
+            { $sort: { date: 1 } },
+            { $limit: 5 },
+            {
+              $project: {
+                _id: 1,
+                title: 1,
+                date: 1,
+                participantCount: { $size: "$participants" },
+              },
+            },
+          ],
+          taskSummary: [
+            {
+              $lookup: {
+                from: "tasks",
+                localField: "_id",
+                foreignField: "meetingId",
+                as: "tasks",
+              },
+            },
+            { $unwind: "$tasks" },
+            {
+              $group: {
+                _id: "$tasks.status",
+                count: { $sum: 1 },
+              },
+            },
+            {
+              $project: {
+                status: "$_id",
+                count: 1,
+                _id: 0,
+              },
+            },
+          ],
+          overdueTasks: [
+            {
+              $lookup: {
+                from: "tasks",
+                localField: "_id",
+                foreignField: "meetingId",
+                as: "tasks",
+              },
+            },
+            { $unwind: "$tasks" },
+            {
+              $match: {
+                "tasks.dueDate": { $lt: now },
+                "tasks.status": { $ne: "completed" },
+              },
+            },
+            {
+              $project: {
+                _id: "$tasks._id",
+                title: "$tasks.title",
+                dueDate: "$tasks.dueDate",
+                meetingId: "$_id",
+                meetingTitle: "$title",
+              },
+            },
+          ],
+        },
       },
-      upcomingMeetings,
-      // TODO: need to lookup meeting title from meeting collection
-      overdueTasks: [
-        {
-          _id: new Types.ObjectId(),
-          title: "Task 1",
-          dueDate: new Date(),
-          meetingId: new Types.ObjectId(),
-          meetingTitle: "Meeting 1",
+      {
+        $project: {
+          totalMeetings: { $arrayElemAt: ["$totalMeetings.count", 0] },
+          upcomingMeetings: 1,
+          taskSummary: 1,
+          overdueTasks: 1,
         },
-        {
-          _id: new Types.ObjectId(),
-          title: "Task 2",
-          dueDate: new Date(),
-          meetingId: new Types.ObjectId(),
-          meetingTitle: "Meeting 2",
-        },
-      ],
+      },
+    ]);
+
+    const pendingTasks =
+      dashboardData.taskSummary.find((task: any) => task.status === "pending")
+        ?.count || 0;
+
+    const inProgressTasks =
+      dashboardData.taskSummary.find(
+        (task: any) => task.status === "inProgress"
+      )?.count || 0;
+
+    const completedTasks =
+      dashboardData.taskSummary.find((task: any) => task.status === "completed")
+        ?.count || 0;
+
+    const response = {
+      totalMeetings: dashboardData.totalMeetings || 0,
+      taskSummary: {
+        pending: pendingTasks,
+        inProgress: inProgressTasks,
+        completed: completedTasks,
+      },
+      upcomingMeetings: dashboardData.upcomingMeetings || [],
+      overdueTasks: dashboardData.overdueTasks || [],
     };
 
-    return dashboardData;
+    return response;
   }
 }

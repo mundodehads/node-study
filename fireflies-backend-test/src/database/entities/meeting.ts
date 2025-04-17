@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-
 import { IMeeting } from "../../models/meeting.js";
 
 const meetingSchema = new Schema<IMeeting>({

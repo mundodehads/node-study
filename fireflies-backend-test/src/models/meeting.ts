@@ -1,5 +1,4 @@
-import { Document } from "mongoose";
-import { Types } from "mongoose";
+import { Document, Types } from "mongoose";
 
 export interface IMeeting extends Document {
   userId: string;

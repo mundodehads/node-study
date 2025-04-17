@@ -9,17 +9,25 @@ class MeetingsController {
   constructor() {
     // GET all meetings for user
     this.router.get("/", this.getMeetings);
+    //POST /api/meetings
+    //GET /api/meetings/:id
+    //PUT /api/meetings/:id/transcript
+    //POST /api/meetings/:id/summarize
     // TODO: implement other endpoints
     this.router.get("/stats", this.getStats);
   }
 
   private getMeetings = async (req: AuthenticatedRequest, res: any) => {
     try {
-      const response = await this.meetingsService.getMeetings();
+      const limit = parseInt((req.query.limit as string) || "10");
+      const page = parseInt((req.query.page as string) || "1");
+
+      const response = await this.meetingsService.getMeetings(limit, page);
+
       res.json({
         total: response.length,
-        limit: req.query.limit,
-        page: req.query.page,
+        limit,
+        page,
         data: response,
       });
     } catch (err) {

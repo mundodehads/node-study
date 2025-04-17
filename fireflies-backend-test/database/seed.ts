@@ -1,7 +1,5 @@
 import "dotenv/config";
-
 import mongoose from "mongoose";
-
 import { IMeeting } from "../src/models/meeting.js";
 import { ITask } from "../src/models/task.js";
 import { Meeting } from "../src/database/entities/meeting.js";
