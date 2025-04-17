@@ -1,19 +1,28 @@
 cocus-code-challenge/.env
+cocus-code-challenge/node_modules/
 
 edirect-fullstack-test/.env
 edirect-fullstack-test/backend/.env
 edirect-fullstack-test/frontend/.env
+edirect-fullstack-test/backend/node_modules/
+edirect-fullstack-test/frontend/node_modules/
 
 edirectinsure-todo-list/.env
 edirectinsure-todo-list/backend/.env
 edirectinsure-todo-list/frontend/.env
+edirectinsure-todo-list/backend/node_modules/
+edirectinsure-todo-list/frontend/node_modules/
 
 fintalk-customer-rewards-test/.env
+fintalk-customer-rewards-test/node_modules/
 
 leovegas-test/.env
+leovegas-test/node_modules/
 
 prosigliere-test/.env
+prosigliere-test/node_modules/
 
 fireflies-backend-test/.env
+fireflies-backend-test/node_modules/
 
 .DS_Store
