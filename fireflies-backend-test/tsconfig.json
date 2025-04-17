@@ -1,17 +1,14 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true,
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
+    "target": "es2022",
+    "module": "commonjs",
     "strict": true,
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true, // Required for reflect-metadata
+    "experimentalDecorators": true, // Required for decorators
+    "skipLibCheck": true,
+    "outDir": "./dist"
   },
   "include": ["src/**/*"],
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node"
-  }
+  "exclude": ["node_modules"]
 }

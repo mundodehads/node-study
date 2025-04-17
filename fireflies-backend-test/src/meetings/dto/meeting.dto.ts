@@ -9,15 +9,15 @@ import { Type } from "class-transformer";
 
 export class CreateMeetingDto {
   @IsString()
-  title: string;
+  title!: string;
 
   @IsDate()
   @Type(() => Date)
-  date: Date;
+  date!: Date;
 
   @IsArray()
   @IsString({ each: true })
-  participants: string[];
+  participants!: string[];
 
   @IsOptional()
   @IsString()

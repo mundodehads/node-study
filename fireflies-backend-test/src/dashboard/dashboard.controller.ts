@@ -1,23 +1,28 @@
-import { Router, Response } from "express";
+import { Router, Response, NextFunction } from "express";
 import { AuthenticatedRequest } from "../models/auth.model";
 import DashboardService from "./dashboard.service";
 
 class DashboardController {
   public router = Router();
-  private dashboardService = new DashboardService();
 
-  constructor() {
+  constructor(private dashboardService: DashboardService) {
     this.router.get("/", this.getDashboard);
   }
 
-  private getDashboard = async (req: AuthenticatedRequest, res: Response) => {
+  private getDashboard = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       const response = await this.dashboardService.getDashboard();
       res.json(response);
+      return;
     } catch (err) {
-      res.status(500).json({ message: (err as Error).message });
+      return next();
     }
   };
 }
 
-export default new DashboardController().router;
+export default (dashboardService: DashboardService) =>
+  new DashboardController(dashboardService).router;

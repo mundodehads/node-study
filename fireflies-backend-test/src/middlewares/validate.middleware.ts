@@ -8,13 +8,15 @@ export const validateDto = (dtoClass: any) => {
     const errors = await validate(dtoInstance);
 
     if (errors.length > 0) {
-      return res.status(400).json({
+      const detailedErrors = errors.map((error) => ({
+        property: error.property,
+        constraints: error.constraints,
+      }));
+      res.status(400).json({
         message: "Validation failed",
-        errors: errors.map((error) => ({
-          property: error.property,
-          constraints: error.constraints,
-        })),
+        errors: detailedErrors,
       });
+      return;
     }
 
     next();
