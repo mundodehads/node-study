@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { ITask } from "../../models/task";
+import { ITask } from "../../models/task.model";
 
 const taskSchema = new Schema<ITask>({
   meetingId: { type: Schema.Types.ObjectId, ref: "Meeting" },

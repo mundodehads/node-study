@@ -1,5 +1,7 @@
-import { Meeting } from "../database/entities/meeting.js";
-import { Stats } from "../models/stats.js";
+import { Meeting } from "../database/entities/meeting.entity";
+import { Task } from "../database/entities/task.entity";
+import { Stats } from "../models/stats.model";
+import { CreateMeetingDto } from "./dto/meeting.dto";
 
 export default class MeetingsService {
   public async getMeetings(
@@ -7,6 +9,7 @@ export default class MeetingsService {
     page: number
   ): Promise<InstanceType<typeof Meeting>[]> {
     const skip = (page - 1) * limit;
+
     return Meeting.find().skip(skip).limit(limit);
   }
 
@@ -87,5 +90,59 @@ export default class MeetingsService {
     ]);
 
     return stats[0];
+  }
+
+  public async createMeeting(
+    data: CreateMeetingDto
+  ): Promise<InstanceType<typeof Meeting>> {
+    const meeting = new Meeting(data);
+    return meeting.save();
+  }
+
+  public async getMeetingById(
+    id: string
+  ): Promise<InstanceType<typeof Meeting> | null> {
+    return Meeting.findById(id);
+  }
+
+  public async updateTranscript(
+    id: string,
+    transcript: string
+  ): Promise<InstanceType<typeof Meeting> | null> {
+    return Meeting.findByIdAndUpdate(id, { transcript }, { new: true });
+  }
+
+  public async summarizeMeeting(
+    id: string
+  ): Promise<{ summary: string; actionItems: string[] } | null> {
+    const meeting = await Meeting.findById(id);
+
+    if (!meeting) return null;
+
+    // Simulate an AI service to generate a summary and action items
+    const aiResponse = {
+      summary: `Your meeting recap - ${meeting.title || ""}`,
+      actionItems: [
+        "Schedule the next meeting",
+        "Start background check process",
+        "Send follow-up email to stackholders",
+      ],
+    };
+
+    const tasks = aiResponse.actionItems.map((actionItem) => ({
+      meetingId: meeting._id,
+      userId: meeting.userId,
+      title: actionItem,
+      description: `Task generated from meeting "${meeting.title}"`,
+      status: "pending",
+      dueDate: new Date(),
+    }));
+
+    await Task.insertMany(tasks);
+
+    return {
+      summary: aiResponse.summary,
+      actionItems: aiResponse.actionItems,
+    };
   }
 }

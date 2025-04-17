@@ -1,5 +1,5 @@
 import { Response, NextFunction } from "express";
-import { AuthenticatedRequest } from "../models/auth.js";
+import { AuthenticatedRequest } from "../models/auth.model";
 
 export const authMiddleware = (
   req: AuthenticatedRequest,

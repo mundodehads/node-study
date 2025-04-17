@@ -1,5 +1,5 @@
 import { Router, Response } from "express";
-import { AuthenticatedRequest } from "../models/auth";
+import { AuthenticatedRequest } from "../models/auth.model";
 import DashboardService from "./dashboard.service";
 
 class DashboardController {

@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { IMeeting } from "../../models/meeting.js";
+import { IMeeting } from "../../models/meeting.model";
 
 const meetingSchema = new Schema<IMeeting>({
   userId: String,

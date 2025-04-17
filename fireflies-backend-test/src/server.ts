@@ -1,9 +1,10 @@
 import "dotenv/config";
+import "reflect-metadata";
 import express from "express";
 import mongoose from "mongoose";
-import MeetingsController from "./meetings/meetings.controller.js";
-import DashboardController from "./dashboard/dashboard.controller.js";
-import { authMiddleware } from "./middlewares/auth.middleware.js";
+import MeetingsController from "./meetings/meetings.controller";
+import DashboardController from "./dashboard/dashboard.controller";
+import { authMiddleware } from "./middlewares/auth.middleware";
 
 const app = express();
 

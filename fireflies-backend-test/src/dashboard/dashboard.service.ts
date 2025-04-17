@@ -1,5 +1,5 @@
-import { Meeting } from "../database/entities/meeting.js";
-import { DashboardData } from "../models/dashboard";
+import { Meeting } from "../database/entities/meeting.entity";
+import { DashboardData } from "../models/dashboard.model";
 
 export default class DashboardService {
   public async getDashboard(): Promise<DashboardData> {

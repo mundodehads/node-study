@@ -1,9 +1,9 @@
 import "dotenv/config";
 import mongoose from "mongoose";
-import { IMeeting } from "../src/models/meeting.js";
-import { ITask } from "../src/models/task.js";
-import { Meeting } from "../src/database/entities/meeting.js";
-import { Task } from "../src/database/entities/task.js";
+import { IMeeting } from "../src/models/meeting.model";
+import { ITask } from "../src/models/task.model";
+import { Meeting } from "../src/database/entities/meeting.entity";
+import { Task } from "../src/database/entities/task.entity";
 
 await mongoose
   .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/meetingbot")

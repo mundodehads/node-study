@@ -1,5 +1,5 @@
-import { UpcomingMeeting } from "./meeting";
-import { OverdueTask } from "./task";
+import { UpcomingMeeting } from "./meeting.model";
+import { OverdueTask } from "./task.model";
 
 export interface DashboardData {
   totalMeetings: number;
